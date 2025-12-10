@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>理想照进现实：气体行为的探究</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        header {
+            background: linear-gradient(to right, #1a2980, #26d0ce);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        .main-content {
+            display: flex;
+            flex-wrap: wrap;
+            padding: 30px;
+        }
+        .left-panel {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+        }
+        .right-panel {
+            flex: 1;
+            min-width: 300px;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-left: 5px solid #26d0ce;
+        }
+        h2 {
+            color: #1a2980;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+        h3 {
+            color: #26d0ce;
+            margin: 15px 0;
+        }
+        .control-group {
+            margin: 20px 0;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+        input[type="range"] {
+            width: 100%;
+            margin: 10px 0;
+        }
+        .value-display {
+            display: inline-block;
+            padding: 5px 15px;
+            background: #e3f2fd;
+            border-radius: 20px;
+            font-weight: bold;
+            color: #1a2980;
+        }
+        button {
+            background: linear-gradient(to right, #1a2980, #26d0ce);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 10px 5px;
+        }
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 15px rgba(0,0,0,0.1);
+        }
+        #graph-container {
+            width: 100%;
+            height: 300px;
+            margin: 20px 0;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .question {
+            background: #f0f7ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+        .answer {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            border-left: 4px solid #4CAF50;
+        }
+        .quote {
+            font-style: italic;
+            color: #555;
+            text-align: center;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 5px solid #FF9800;
+        }
+        footer {
+            text-align: center;
+            padding: 30px;
+            background: #1a2980;
+            color: white;
+            margin-top: 30px;
+        }
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>理想照进现实</h1>
+            <p class="subtitle">从理想气体到真实气体的物理化学探究</p>
+            <p>通过互动模拟理解气体模型的发展与修正</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="left-panel">
+                <div class="card">
+                    <h2>理想气体模型</h2>
+                    <p>理想气体模型基于以下假设：</p>
+                    <ul>
+                        <li>气体分子是没有体积的质点</li>
+                        <li>分子间无相互作用力（除碰撞瞬间）</li>
+                        <li>分子碰撞是完全弹性的</li>
+                    </ul>
+                    <p>状态方程：<strong>PV = nRT</strong></p>
+                    <div class="quote">
+                        "科学不是真理的发现，而是可能性的探索。"<br>
+                        —— 卡尔·波普尔
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h2>真实气体与范德华方程</h2>
+                    <p>真实气体在高压、低温下会偏离理想行为，范德华方程引入修正：</p>
+                    <p><strong>(P + a(n/V)²)(V - nb) = nRT</strong></p>
+                    <p>其中：</p>
+                    <ul>
+                        <li><strong>a</strong>：分子间引力修正项</li>
+                        <li><strong>b</strong>：分子体积修正项</li>
+                    </ul>
+                </div>
+                
+                <div class="card">
+                    <h2>参数调节与观察</h2>
+                    <div class="control-group">
+                        <label>压力 (atm): <span id="pressure-value" class="value-display">1</span></label>
+                        <input type="range" id="pressure-slider" min="0.1" max="100" step="0.1" value="1">
+                        
+                        <label>温度 (K): <span id="temperature-value" class="value-display">300</span></label>
+                        <input type="range" id="temperature-slider" min="100" max="500" step="1" value="300">
+                        
+                        <label>气体类型:</label>
+                        <select id="gas-select">
+                            <option value="CO2">二氧化碳 (CO₂) - a=3.59, b=0.0427</option>
+                            <option value="H2">氢气 (H₂) - a=0.244, b=0.0266</option>
+                            <option value="N2">氮气 (N₂) - a=1.39, b=0.0391</option>
+                            <option value="H2O">水蒸气 (H₂O) - a=5.46, b=0.0305</option>
+                        </select>
+                        
+                        <button id="calculate-btn">计算体积</button>
+                        <button id="reset-btn">重置参数</button>
+                    </div>
+                    
+                    <div id="results">
+                        <h3>计算结果</h3>
+                        <p>理想气体体积: <span id="ideal-volume">--</span> L/mol</p>
+                        <p>真实气体体积 (范德华): <span id="real-volume">--</span> L/mol</p>
+                        <p>偏差百分比: <span id="deviation">--</span> %</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-panel">
+                <div class="card">
+                    <h2>P-V关系图</h2>
+                    <div id="graph-container">
+                        <canvas id="pv-chart" width="400" height="300"></canvas>
+                    </div>
+                    <p>观察不同条件下理想气体与真实气体的行为差异</p>
+                </div>
+                
+                <div class="card">
+                    <h2>分层练习题</h2>
+                    
+                    <div class="question">
+                        <h3>基础题</h3>
+                        <p>1. 理想气体分子间不存在相互作用力。</p>
+                        <button class="answer-btn" data-answer="true">正确</button>
+                        <button class="answer-btn" data-answer="false">错误</button>
+                        <div class="answer" id="answer1" style="display:none;">
+                            <strong>答案：正确</strong>。这是理想气体的基本假设之一。
+                        </div>
+                    </div>
+                    
+                    <div class="question">
+                        <h3>应用题</h3>
+                        <p>2. 计算1mol CO₂在300K、10atm条件下的体积，使用理想气体方程和范德华方程。</p>
+                        <button id="calc-example-btn">显示计算过程</button>
+                        <div class="answer" id="answer2" style="display:none;">
+                            <strong>计算过程：</strong><br>
+                            理想气体方程：V = nRT/P = (1×0.0821×300)/10 = 2.463 L<br>
+                            范德华方程：(P + a(n/V)²)(V - nb) = nRT<br>
+                            迭代求解得 V ≈ 2.312 L<br>
+                            偏差百分比：6.1%
+                        </div>
+                    </div>
+                    
+                    <div class="question">
+                        <h3>拓展题</h3>
+                        <p>3. 如何设计实验验证理想气体定律在高压下的偏差？</p>
+                        <button id="expand-answer-btn">显示思路</button>
+                        <div class="answer" id="answer3" style="display:none;">
+                            <strong>实验设计思路：</strong><br>
+                            1. 使用高压容器和压力传感器<br>
+                            2. 控制温度恒定<br>
+                            3. 逐步增加压力，测量实际体积变化<br>
+                            4. 与理想气体方程预测值比较<br>
+                            5. 绘制P-V曲线，观察偏差
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <h2>学习反思</h2>
+                    <p>"通过本次探究，我认识到..."</p>
+                    <textarea id="reflection" rows="4" placeholder="请写下你的学习感悟..." style="width:100%; padding:10px; border-radius:5px; border:1px solid #ddd; margin:10px 0;"></textarea>
+                    <p>"理想模型虽然不完美，但它..."</p>
+                    <textarea id="ideal-model" rows="4" placeholder="请补充完整..." style="width:100%; padding:10px; border-radius:5px; border:1px solid #ddd; margin:10px 0;"></textarea>
+                    <button id="save-reflection">保存反思</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="quote">
+            "理想模型是科学的灯塔，现实系统是工程师的战场。<br>
+            希望你们在这次旅程中，既仰望星空，也脚踏实地，<br>
+            用物理化学的眼光，读懂这个不完美的世界。"
+        </div>
+        
+        <footer>
+            <p>物理化学探究项目 | 从理想气体到真实气体</p>
+            <p>参考资料：物理化学教材第3章；NIST Chemistry WebBook；Atkins' Physical Chemistry</p>
+            <p>工具：HTML/CSS/JavaScript实现交互模拟；Chart.js绘制图表</p>
+        </footer>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // 气体参数数据库
+        const gases = {
+            CO2: { name: "二氧化碳", a: 3.59, b: 0.0427, color: "#FF6384" },
+            H2: { name: "氢气", a: 0.244, b: 0.0266, color: "#36A2EB" },
+            N2: { name: "氮气", a: 1.39, b: 0.0391, color: "#FFCE56" },
+            H2O: { name: "水蒸气", a: 5.46, b: 0.0305, color: "#4BC0C0" }
+        };
+        
+        // 常数
+        const R = 0.0821; // L·atm/(mol·K)
+        
+        // DOM元素
+        const pressureSlider = document.getElementById('pressure-slider');
+        const temperatureSlider = document.getElementById('temperature-slider');
+        const pressureValue = document.getElementById('pressure-value');
+        const temperatureValue = document.getElementById('temperature-value');
+        const gasSelect = document.getElementById('gas-select');
+        const calculateBtn = document.getElementById('calculate-btn');
+        const resetBtn = document.getElementById('reset-btn');
+        const idealVolumeEl = document.getElementById('ideal-volume');
+        const realVolumeEl = document.getElementById('real-volume');
+        const deviationEl = document.getElementById('deviation');
+        
+        // 初始化图表
+        const ctx = document.getElementById('pv-chart').getContext('2d');
+        let pvChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [], // 压力值
+                datasets: [
+                    {
+                        label: '理想气体',
+                        data: [],
+                        borderColor: '#1a2980',
+                        backgroundColor: 'rgba(26, 41, 128, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.4
+                    },
+                    {
+                        label: '真实气体',
+                        data: [],
+                        borderColor: '#26d0ce',
+                        backgroundColor: 'rgba(38, 208, 206, 0.1)',
+                        borderWidth: 2,
+                        tension: 0.4
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: '理想气体与真实气体的P-V曲线对比'
+                    }
+                },
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: '体积 (L/mol)'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: '压力 (atm)'
+                        }
+                    }
+                }
+            }
+        });
+        
+        // 更新显示值
+        pressureSlider.addEventListener('input', () => {
+            pressureValue.textContent = pressureSlider.value;
+        });
+        
+        temperatureSlider.addEventListener('input', () => {
+            temperatureValue.textContent = temperatureSlider.value;
+        });
+        
+        // 理想气体体积计算
+        function calculateIdealVolume(P, T, n = 1) {
+            return (n * R * T) / P;
+        }
+        
+        // 范德华方程体积计算（迭代法）
+        function calculateRealVolume(P, T, a, b, n = 1) {
+            // 使用理想气体体积作为初始值
+            let V = calculateIdealVolume(P, T, n);
+            
+            // 迭代求解范德华方程
+            for (let i = 0; i < 50; i++) {
+                const term1 = P + a * Math.pow(n / V, 2);
+                const term2 = V - n * b;
+                const newV = (n * R * T) / term1 + n * b;
+                
+                // 检查收敛
+                if (Math.abs(newV - V) < 0.001) {
+                    return newV;
+                }
+                
+                V = newV;
+            }
+            
+            return V;
+        }
+        
+        // 生成P-V曲线数据
+        function generatePVData() {
+            const T = parseFloat(temperatureSlider.value);
+            const gas = gases[gasSelect.value];
+            const a = gas.a;
+            const b = gas.b;
+            
+            const volumes = [];
+            const idealPressures = [];
+            const realPressures = [];
+            
+            // 生成体积数据点 (0.1 到 10 L/mol)
+            for (let V = 0.5; V <= 10; V += 0.2) {
+                volumes.push(V.toFixed(1));
+                
+                // 理想气体压力
+                const P_ideal = (1 * R * T) / V;
+                idealPressures.push(P_ideal);
+                
+                // 真实气体压力（从范德华方程反推）
+                const P_real = (1 * R * T) / (V - 1 * b) - a / Math.pow(V, 2);
+                realPressures.push(P_real);
+            }
+            
+            // 更新图表
+            pvChart.data.labels = volumes;
+            pvChart.data.datasets[0].data = idealPressures;
+            pvChart.data.datasets[1].data = realPressures;
+            pvChart.data.datasets[1].label = `真实气体 (${gas.name})`;
+            pvChart.update();
+        }
+        
+        // 计算按钮事件
+        calculateBtn.addEventListener('click', () => {
+            const P = parseFloat(pressureSlider.value);
+            const T = parseFloat(temperatureSlider.value);
+            const gas = gases[gasSelect.value];
+            const a = gas.a;
+            const b = gas.b;
+            
+            // 计算体积
+            const V_ideal = calculateIdealVolume(P, T);
+            const V_real = calculateRealVolume(P, T, a, b);
+            
+            // 计算偏差百分比
+            const deviation = ((V_ideal - V_real) / V_ideal * 100).toFixed(2);
+            
+            // 显示结果
+            idealVolumeEl.textContent = V_ideal.toFixed(3);
+            realVolumeEl.textContent = V_real.toFixed(3);
+            deviationEl.textContent = deviation;
+            
+            // 生成并更新图表
+            generatePVData();
+        });
+        
+        // 重置按钮事件
+        resetBtn.addEventListener('click', () => {
+            pressureSlider.value = 1;
+            temperatureSlider.value = 300;
+            pressureValue.textContent = '1';
+            temperatureValue.textContent = '300';
+            gasSelect.value = 'CO2';
+            
+            idealVolumeEl.textContent = '--';
+            realVolumeEl.textContent = '--';
+            deviationEl.textContent = '--';
+            
+            generatePVData();
+        });
+        
+        // 练习题交互
+        document.querySelectorAll('.answer-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const answer = this.getAttribute('data-answer');
+                const answerDiv = this.parentElement.querySelector('.answer');
+                const isCorrect = (answer === 'true');
+                
+                answerDiv.style.display = 'block';
+                if (isCorrect) {
+                    answerDiv.innerHTML = "<strong>答案：正确</strong>。这是理想气体的基本假设之一。";
+                    answerDiv.style.borderLeftColor = "#4CAF50";
+                } else {
+                    answerDiv.innerHTML = "<strong>答案：错误</strong>。这是理想气体的基本假设之一。";
+                    answerDiv.style.borderLeftColor = "#F44336";
+                }
+            });
+        });
+        
+        document.getElementById('calc-example-btn').addEventListener('click', function() {
+            const answerDiv = document.getElementById('answer2');
+            answerDiv.style.display = answerDiv.style.display === 'none' ? 'block' : 'none';
+        });
+        
+        document.getElementById('expand-answer-btn').addEventListener('click', function() {
+            const answerDiv = document.getElementById('answer3');
+            answerDiv.style.display = answerDiv.style.display === 'none' ? 'block' : 'none';
+        });
+        
+        // 保存反思
+        document.getElementById('save-reflection').addEventListener('click', function() {
+            const reflection = document.getElementById('reflection').value;
+            const idealModel = document.getElementById('ideal-model').value;
+            
+            if (reflection || idealModel) {
+                localStorage.setItem('gas-reflection', JSON.stringify({
+                    reflection: reflection,
+                    idealModel: idealModel,
+                    date: new Date().toLocaleString()
+                }));
+                alert('学习反思已保存到本地存储！');
+            } else {
+                alert('请填写反思内容后再保存。');
+            }
+        });
+        
+        // 加载保存的反思
+        window.addEventListener('load', function() {
+            const saved = localStorage.getItem('gas-reflection');
+            if (saved) {
+                const data = JSON.parse(saved);
+                document.getElementById('reflection').value = data.reflection || '';
+                document.getElementById('ideal-model').value = data.idealModel || '';
+            }
+            
+            // 初始化图表
+            generatePVData();
+        });
+    </script>
+</body>
+</html>
